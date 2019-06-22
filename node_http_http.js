@@ -10,7 +10,7 @@ let url = 'http://dev.kuaidaili.com/testproxy';
 
 let options = {
     host: '113.72.108.33', // 代理服务器ip
-    port: '16816',         // 代理服务器端口
+    port: 16816,         // 代理服务器端口
     path: url,
     headers: {
         "Host": 'www.baidu.com',
@@ -33,4 +33,5 @@ http.get(options, (res) => {
         // 输出返回内容(未使用gzip压缩)
         res.pipe(process.stdout);
     }
+
 });
