@@ -4,6 +4,10 @@
 
 node-sdk/example文件夹里有使用例子
 
+next: 
+
+npm install kdl
+
 ## API部分:
 
 ### node_api.js
