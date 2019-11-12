@@ -1,7 +1,8 @@
 # 快代理SDK - Node.js
 ## SDK部分:
 请先安装axios 库npm install axios
-example文件夹里有使用例子
+
+node-sdk/example文件夹里有使用例子
 
 ## API部分:
 
