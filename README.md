@@ -1,12 +1,6 @@
 # 快代理SDK - Node.js
 ## SDK部分:
-请先安装axios 库npm install axios
-
-node-sdk/example文件夹里有使用例子
-
-next: 
-
-npm install kdl
+[node-api-sdk](https://github.com/kuaidaili/node.js-sdk/tree/master/api-sdk)
 
 ## API部分:
 
