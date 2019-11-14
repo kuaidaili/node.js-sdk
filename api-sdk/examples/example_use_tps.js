@@ -33,7 +33,7 @@ test2.getIpWhitelist('hmacsha1').then(
 
 
 //设置白名单 参数为字符串。如下
-test2.setIpWhitelist("171.113.244.20,171.113.244.41",'hmacsha1');
+test2.setIpWhitelist("171.113.244.20,171.113.244.41",'hmacsha1').then(value => {});
 
 
 //显示当前隧道代理ip

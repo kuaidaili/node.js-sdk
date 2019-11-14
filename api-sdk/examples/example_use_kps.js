@@ -35,7 +35,7 @@ test2 = new Client(test);
 
 
 //设置白名单 参数为字符串。如下
-// test2.setIpWhitelist("171.113.244.55,171.113.244.41",'hmacsha1');
+// test2.setIpWhitelist("171.113.244.55,171.113.244.41",'hmacsha1').then(value => {});
 
 
 //提取独享代理ip
