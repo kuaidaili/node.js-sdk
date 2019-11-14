@@ -17,9 +17,8 @@ const kdlError = require('./exceptions');
  * @constructor
  * @param auth auth对象
  */
-class Client{
-
-    constructor(auth){
+class Client {
+    constructor(auth) {
         this.auth = auth;
         this.res = {}
     }
@@ -29,15 +28,13 @@ class Client{
      *
      * @method getOrderExpireTime
      * @for Client
-     * @param {String} signType 鉴权方式，具体可查看官网：https://www.kuaidaili.com/doc/api/auth/
+     * @param  {String} signType 鉴权方式，具体可查看官网：https://www.kuaidaili.com/doc/api/auth/
      * @return {Promise} 返回Promise对象
      */
-    getOrderExpireTime(signType = "simple"){
+    getOrderExpireTime(signType = "simple") {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_ORDER_EXPIRE_TIME;
         let dic = {};
         dic['sign_type'] = signType;
-        //console.log('这个时候的dic');
-        //console.log(dic);
         return this.returnPromise(ENDPOINT,dic,'expire_time');
 
     }
@@ -47,20 +44,20 @@ class Client{
      *
      * @method getOpsProxy
      * @for Client
-     * @param {String} signType 鉴权方式，具体可查看官网：https://www.kuaidaili.com/doc/api/auth/
-     * @param {Number} num 提取数量
-     * @param {String} orderLevel 开放代理订单类型
-     * @param {{}} otherParams 其他参数字典
+     * @param  {String} signType 鉴权方式，具体可查看官网：https://www.kuaidaili.com/doc/api/auth/
+     * @param  {Number} num 提取数量
+     * @param  {String} orderLevel 开放代理订单类型
+     * @param  {{}} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getOpsProxy(num=0, orderLevel=OPS_ORDER_LEVEL.NORMAL, signType="simple",otherParams={}){
+    getOpsProxy(num=0, orderLevel=OPS_ORDER_LEVEL.NORMAL, signType="simple", otherParams={}) {
         //console.log(otherParams);
         let ENDPOINT = kdlUtils.ENDPOINT.GET_OPS_PROXY_NORMAL_OR_VIP;
         if(orderLevel===kdlUtils.OPS_ORDER_LEVEL.SVIP)
             ENDPOINT = kdlUtils.ENDPOINT.GET_OPS_PROXY_SVIP;
         if(orderLevel===kdlUtils.OPS_ORDER_LEVEL.PRO)
             ENDPOINT = kdlUtils.ENDPOINT.GET_OPS_PROXY_ENT;
-        //TODO 之所以把其他参数和num，orderLevel,signType分开是为了方便用户，可能有更好的方案
+        // TODO 之所以把其他参数和num，order_level,sign_type分开是为了方便用户，可能有更好的方案
         otherParams['num'] = num;
         otherParams['order_level'] = orderLevel;
         otherParams['sign_type'] = signType;
@@ -72,11 +69,11 @@ class Client{
      *
      * @method checkOpsValid
      * @for Client
-     * @param {Array} proxyList 代理ip列表
-     * @param {String} signType 鉴权
+     * @param  {Array} proxyList 代理ip列表
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    checkOpsValid(proxyList,signType='simple'){
+    checkOpsValid(proxyList, signType='simple') {
         let ENDPOINT = kdlUtils.ENDPOINT.CHECK_OPS_VALID;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -90,12 +87,12 @@ class Client{
      *
      * @method getIpWhitelist
      * @for Client
-     * @param {String} signType 鉴权
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getIpWhitelist(signType = "simple"){
+    getIpWhitelist(signType = "simple") {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_IP_WHITELIST;
-        let dic = {};
+        let dic =  {};
         dic['sign_type'] = signType;
         return this.returnPromise(ENDPOINT,dic,'ipwhitelist');
     }
@@ -105,19 +102,19 @@ class Client{
      *
      * @method setIpWhitelist
      * @for Client
-     * @param {String} ip_list ip列表，默认为把白名单设置为空
-     * @param {String} signType 鉴权
+     * @param  {String} ip_list ip列表，默认为把白名单设置为空
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    setIpWhitelist(ip_list="",signType='simple'){
+    setIpWhitelist(ip_list="", signType='simple') {
         let ENDPOINT = kdlUtils.ENDPOINT.SET_IP_WHITELIST;
         let dic = {};
         dic['sign_type'] = signType;
         dic['iplist'] = ip_list;
         let params = this.getParams(ENDPOINT,dic);
         let promise =  this.getBaseRes("POST",ENDPOINT,params);
-        return promise.then(value=>{
-        }).catch(error=>{
+        return promise.then(value=> {
+        }).catch(error=> {
         });
     }
 
@@ -126,12 +123,12 @@ class Client{
      *
      * @method getDpsProxy
      * @for Client
-     * @param num 提取的数量
-     * @param {String} signType 鉴权
-     * @param {Array} otherParams 其他参数字典
+     * @param  num 提取的数量
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getDpsProxy(num=0, signType="simple", otherParams={}){
+    getDpsProxy(num=0, signType="simple", otherParams={}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_DPS_PROXY;
@@ -144,11 +141,11 @@ class Client{
      *
      * @method checkDpsValid
      * @for Client
-     * @param {String} proxyList ip列表
-     * @param {String} signType 鉴权
+     * @param  {String} proxyList ip列表
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    checkDpsValid(proxyList,signType='simple'){
+    checkDpsValid(proxyList, signType='simple') {
         let ENDPOINT = kdlUtils.ENDPOINT.CHECK_DPS_VALID;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -162,11 +159,11 @@ class Client{
      *
      * @method getDpsValidTime
      * @for Client
-     * @param {String} proxyList ip列表
-     * @param {String} signType 鉴权
+     * @param  {String} proxyList ip列表
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getDpsValidTime(proxyList,signType='simple'){
+    getDpsValidTime(proxyList, signType='simple') {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_DPS_VALID_TIME;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -177,14 +174,14 @@ class Client{
 
     /**
      * 此接口只对按量付费订单和包年包月的集中提取型订单有效
-     *  获取计数版订单ip余额, 强制simple签名验证,
+     * 获取计数版订单ip余额, 强制simple签名验证
      *
      * @method getIpBalance
      * @for Client
-     * @param {String} signType 鉴权
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getIpBalance(signType='simple'){
+    getIpBalance(signType='simple') {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_IP_BALANCE;
         let dic = {};
         dic['sign_type'] = signType;
@@ -196,11 +193,11 @@ class Client{
      *
      * @method getKpsProxy
      * @for Client
-     * @param {String} signType 鉴权
-     * @param {Array} otherParams 其他参数字典
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getKpsProxy(num=0, signType="simple", otherParams={}){
+    getKpsProxy(num=0, signType="simple", otherParams= {}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_KPS_PROXY;
@@ -212,10 +209,10 @@ class Client{
      *
      * @method tpsCurrentIp
      * @for Client
-     * @param {String} signType 鉴权
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    tpsCurrentIp(signType="simple"){
+    tpsCurrentIp(signType="simple") {
         let ENDPOINT = kdlUtils.ENDPOINT.TPS_CURRENT_IP;
         let dic = {};
         dic['sign_type'] = signType;
@@ -227,10 +224,10 @@ class Client{
      *
      * @method changeTpsIp
      * @for Client
-     * @param {String} signType 鉴权
+     * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    changeTpsIp(signType="simple"){
+    changeTpsIp(signType="simple") {
         let ENDPOINT = kdlUtils.ENDPOINT.CHANGE_TPS_IP;
         let dic = {};
         dic['sign_type'] = signType;
@@ -242,12 +239,12 @@ class Client{
      *
      * @method returnPromise
      * @for Client
-     * @param {String} ENDPOINT 地址
-     * @param {Array} otherParams 参数
-     * @param {String} key 要从response.data获取的key
+     * @param  {String} ENDPOINT 地址
+     * @param  {Array} otherParams 参数
+     * @param  {String} key 要从response.data获取的key
      * @return {Promise} 返回Promise对象
      */
-    returnPromise(ENDPOINT,otherParams,key){
+    returnPromise(ENDPOINT, otherParams, key) {
         let params = this.getParams(ENDPOINT,otherParams);
         //console.log('得到的参数为',params);
         let promise =  this.getBaseRes("GET",ENDPOINT,params);
@@ -259,22 +256,22 @@ class Client{
                 throw new kdlError.KdlReadError(err_message);
             }
             return value.data[key];
-        }).catch(error =>{
+        }).catch(error => {
             console.log('catch error: ',error);
             return error;
         });
     }
 
     /**
-     * 检验代理有效性通用函数，
+     * 检验代理有效性通用函数
      *
      * @method check_valid
      * @for Client
-     * @param {String} ENDPOINT 地址
-     * @param otherParams
+     * @param  {String} ENDPOINT 地址
+     * @param  otherParams
      * @return {Promise} 返回Promise对象
      */
-    checkValidOrTime(ENDPOINT,otherParams){
+    checkValidOrTime(ENDPOINT, otherParams) {
         let params = this.getParams(ENDPOINT, otherParams);
         //console.log(params);
         let promise = this.getBaseRes("GET",ENDPOINT,params);
@@ -286,7 +283,7 @@ class Client{
                     throw new kdlError.KdlReadError(err_message);
                 }
                 return value.data;
-            }).catch(error=>{
+            }).catch(error=> {
             console.log('catch error',error);
             return error;
         })
@@ -297,11 +294,11 @@ class Client{
      *
      * @method getProxy
      * @for Client
-     * @param {String} ENDPOINT 地址
-     * @param {{}} otherParams 参数
+     * @param  {String} ENDPOINT 地址
+     * @param  {{}} otherParams 参数
      * @return {Promise} 返回Promise对象
      */
-    getProxy(ENDPOINT,otherParams){
+    getProxy(ENDPOINT, otherParams) {
         let params =this.getParams(ENDPOINT,otherParams);
         let promise =  this.getBaseRes("GET",ENDPOINT,params);
         return promise.then(value => {
@@ -310,7 +307,7 @@ class Client{
                 throw new kdlError.KdlReadError(err_message);
             }
             return  value.data['proxy_list'];
-        }).catch(error=>{
+        }).catch(error=> {
             console.log('catch error',error);
             return error;
         });
@@ -321,34 +318,30 @@ class Client{
      *
      * @method getParams
      * @for Client
-     * @param {String} ENDPOINT 要访问的地址
-     * @param {{}} kwargs 字典。
+     * @param  {String} ENDPOINT 要访问的地址
+     * @param  {{}} kwargs 字典。
      * @return {Array} 返回值这加工之后的参数
      */
-    getParams(ENDPOINT, kwargs){
-        //console.log('kwargs:',kwargs);
+    getParams(ENDPOINT, kwargs) {
         kwargs["orderid"] = this.auth.order_id;
         let signType = kwargs['sign_type'];
 
         let rawStr = "";
-        // console.log('这个时候的res',res);
-        // console.log('signType：',signType);
-        try {
-            if(signType === 'simple'){
+        try  {
+            if(signType === 'simple') {
                 kwargs["signature"] = this.auth.api_key;
             }
-            else if(signType === 'hmacsha1'){
+            else if(signType === 'hmacsha1') {
                 kwargs["timestamp"] = Date.now();
-                if (ENDPOINT === kdlUtils.ENDPOINT.SET_IP_WHITELIST){
+                if (ENDPOINT === kdlUtils.ENDPOINT.SET_IP_WHITELIST) {
                     rawStr  = this.auth.getStringToSign("POST",ENDPOINT,kwargs);
                 }
-                else{
+                else {
                     rawStr = this.auth.getStringToSign("GET",ENDPOINT,kwargs);
-                    //console.log('raw-str:',rawStr);
                 }
                 kwargs["signature"] = this.auth.signStr(rawStr);
             }
-            else{
+            else {
                 //抛异常
                 throw new kdlError.KdlNameError('unknown signType '+signType);
             }
@@ -364,39 +357,38 @@ class Client{
      *
      * @method getBaseRes
      * @for Client
-     * @param {String} method 请求方式
-     * @param {String} endpont 结尾的域名
-     * @param {Array} params 请求的参数
-     * @param {String} method 请求方式
-     * @return {Promise} 返回promise对象
+     * @param  {String} method 请求方式
+     * @param  {String} endpont 结尾的域名
+     * @param  {Array} params 请求的参数
+     * @param  {String} method 请求方式
+     * @return  {Promise} 返回promise对象
      */
-    getBaseRes(method, endpont, params){
+    getBaseRes(method, endpont, params) {
         let url = "https://" + endpont;
-        try{
-            if(method==='GET'){
-                return axios.get(url,{
-                    params,}).then(response =>{
-                    //console.log(response.data);
+        try {
+            if(method==='GET') {
+                return axios.get(url, {
+                    params,}).then(response => {
+                  
                     return response.data; //返回结果
-                }).catch(error =>{
+                }).catch(error => {
                         console.log(error);
                         return 'error!!';
                     }
                 );
             }
-            else if(method==='POST'){
-                //console.log('post data',params);
+            else if(method==='POST') {
                 let data = kdlUtils.getQueryStr(params);
-                return axios.post(url,data,{headers:{'Content-Type':'application/x-www-form-urlencoded'}}).then(
-                    response=>{
+                return axios.post(url,data, {headers: {'Content-Type':'application/x-www-form-urlencoded'}}).then(
+                    response=> {
                         return response;
                     }
-                ).catch(error=>{
+                ).catch(error=> {
                     console.log(error);
                     return 'error!!';
                 })
             }
-            else{
+            else {
                 throw new kdlError.KdlTypeError('method type error');
             }
         }catch (e) {

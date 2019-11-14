@@ -9,26 +9,24 @@
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
 
-test = new Auth("947179293200479","apiKey");
-//console.log(test.api_key);
-//console.log(test.order_id);
+test = new Auth('youOrderId','youApiKey');
 test2 = new Client(test);
-//获取订单返回时间，返回时间字符串
+
+// 获取订单返回时间，返回时间字符串
 test2.getOrderExpireTime().then(
     value => {
         console.log(value);
     }
 );
-//
-// //
+
 test2.getOrderExpireTime('hmacsha1').then(
     value => {
         console.log(value);
     }
 );
-//
-// // //构造请求参数，详情请访问快代理官网API文档
-// // https://www.kuaidaili.com/doc/api/getproxy/
+
+// 构造请求参数，详情请访问快代理官网API文档
+// https://www.kuaidaili.com/doc/api/getproxy/
 params = {
     format:'json',
     pt:2,
@@ -38,8 +36,8 @@ test2.getOpsProxy(4,'svip','hmacsha1', params)
     .then(value => {
        console.log(value);
     });
-//
-// //测试验证ip可用性接口。
+
+// 测试验证ip可用性接口。
 params = {
     format:'json',
     pt:2,
@@ -53,11 +51,3 @@ test2.getOpsProxy(4,'svip','hmacsha1', params)
             }
         );
     });
-//
-//
-//
-//
-//
-//
-//
-//

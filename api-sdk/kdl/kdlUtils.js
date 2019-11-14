@@ -1,19 +1,19 @@
 /**
- * @file 集合
+ * @file 集合kdl使用的常量和常用的函数
  * @author www.kuaidaili.com
  */
 
 const axios = require('axios');
 
 const OPS_ORDER_LEVEL = {
-    //开放代理级别
-    NORMAL : "dev", //普通
-    VIP : "dev", //vip
-    SVIP : "svip", //svip
-    PRO : "ent", //专业
+    // 开放代理级别
+    NORMAL : "dev", // 普通
+    VIP : "dev", // vip
+    SVIP : "svip", // svip
+    PRO : "ent", // 专业
 };
 
-//各个api的主机+路径
+// 各个api的主机+路径
 const ENDPOINT = {
     GET_ORDER_EXPIRE_TIME : "dev.kdlapi.com/api/getorderexpiretime",
     GET_IP_WHITELIST : "dev.kdlapi.com/api/getipwhitelist",  // 获取IP白名单
@@ -31,8 +31,8 @@ const ENDPOINT = {
     CHANGE_TPS_IP : "tps.kdlapi.com/api/changetpsip",
 };
 
-Object.freeze(OPS_ORDER_LEVEL); //冻结
-Object.freeze(ENDPOINT); //冻结
+Object.freeze(OPS_ORDER_LEVEL); // 冻结
+Object.freeze(ENDPOINT); // 冻结
 
 /**
  * sortDict 根据字典的key进行字典序排序
