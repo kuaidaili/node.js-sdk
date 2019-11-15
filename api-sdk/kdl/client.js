@@ -395,8 +395,6 @@ class Client {
             console.log('catch error :');
             console.log(e);
         }
-
-
     }
 }
 module.exports = Client;
