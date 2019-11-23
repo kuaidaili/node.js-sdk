@@ -8,18 +8,17 @@
 
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
-
-test = new Auth('youOrderId','youApiKey');
-test2 = new Client(test);
+auth = new Auth('yourOrderId','yourApiKey');
+client = new Client(auth);
 
 // 获取订单返回时间，返回时间字符串
-test2.getOrderExpireTime().then(
+client.getOrderExpireTime().then(
     value => {
         console.log(value);
     }
 );
 
-test2.getOrderExpireTime('hmacsha1').then(
+client.getOrderExpireTime('hmacsha1').then(
     value => {
         console.log(value);
     }
@@ -32,7 +31,7 @@ params = {
     pt:2,
     area:'北京,上海,广东',
 };
-test2.getOpsProxy(4,'svip','hmacsha1', params)
+client.getOpsProxy(4,'svip','hmacsha1', params)
     .then(value => {
        console.log(value);
     });
@@ -43,9 +42,9 @@ params = {
     pt:2,
     area:'北京,上海,广东',
 };
-test2.getOpsProxy(4,'svip','hmacsha1', params)
+client.getOpsProxy(4,'svip','hmacsha1', params)
     .then(value => {
-        test2.checkOpsValid(value,'hmacsha1').then(
+        client.checkOpsValid(value,'hmacsha1').then(
             value => {
                 console.log(value);
             }

@@ -8,42 +8,33 @@
 
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
-test = new Auth('youOrderId','youApiKey');
-
-
-test2 = new Client(test);
-
+auth = new Auth('yourOrderId','yourApiKey');
+client = new Client(auth);
 // 获取订单到期时间
-test2.getOrderExpireTime('hmacsha1').then(
+client.getOrderExpireTime('hmacsha1').then(
     value => {
         console.log(value);
     }
 );
 
-
-
 // 获取ip白名单
-test2.getIpWhitelist('hmacsha1').then(
+client.getIpWhitelist('hmacsha1').then(
     value => {
         //console.log('value的值为：');
         console.log(value);
     }
 );
 
-
-
 // 设置白名单 参数为字符串。如下
-test2.setIpWhitelist("171.113.244.20,171.113.244.41",'hmacsha1').then(value => {});
-
-
+client.setIpWhitelist("171.113.244.20,171.113.244.41",'hmacsha1').then(value => {});
 // 显示当前隧道代理ip
-test2.tpsCurrentIp('hmacsha1').then(value=>{
+client.tpsCurrentIp('hmacsha1').then(value=>{
     console.log(value);
 });
 
 
 // 修改当前隧道代理ip
-test2.changeTpsIp('hmacsha1').then(
+client.changeTpsIp('hmacsha1').then(
     value => {
         console.log(value);
     }
