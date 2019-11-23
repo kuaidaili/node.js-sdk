@@ -40,18 +40,21 @@ const Client = require('kdl/kdl/client'); //引入的方式会因为导入kdl包
 const Auth = require('kdl/kdl/auth');
 auth = new Auth('youOrderId','youApiKey');
 client = new Client(auth);
+
 // 获取订单到期时间
 client.getOrderExpireTime('simple').then(
     value => {
         console.log(value);
     }
 );
+
 // 获取ip白名单
 client.getIpWhitelist('hmacsha1').then(
     value => {
         console.log(value);
     }
 );
+
 // 设置白名单 参数为字符串。如下
 client.setIpWhitelist("171.113.244.24,171.113.244.41", 'hmacsha1').then(value => {});
 
@@ -68,6 +71,7 @@ client.getDpsProxy(5,'hmacsha1',params).then(
         console.log(value);
     }
 );
+
 // 检测dps_proxy的有效性
 params = {
     format:'json',
@@ -99,6 +103,7 @@ client.getDpsProxy(5,'hmacsha1',params).then(
         );
     }
 );
+
 // 获取订单IP提取余额
 // 此接口只对按量付费订单和包年包月的集中提取型订单有效：
 // 对于按量付费订单，此接口返回的是订单的剩余IP提取额度。
