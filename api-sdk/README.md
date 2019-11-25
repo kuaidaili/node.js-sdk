@@ -38,7 +38,7 @@ npm install kdl
  */
 const Client = require('kdl/kdl/client'); //引入的方式会因为导入kdl包方式的方式而略有不同
 const Auth = require('kdl/kdl/auth');
-auth = new Auth('youOrderId','youApiKey');
+auth = new Auth('yourOrderId','yourApiKey');
 client = new Client(auth);
 
 // 获取订单到期时间
