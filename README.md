@@ -1,6 +1,7 @@
-# 快代理SDK - Node.js
-## SDK部分:
-[node-api-sdk](https://github.com/kuaidaili/node.js-sdk/tree/master/api-sdk)
+# 快代理API SDK - Node.js
+通过SDK可快速调用API接口，[查看详情](https://github.com/kuaidaili/node.js-sdk/tree/master/api-sdk)
+
+# 快代理官方代码样例 - Node.js
 
 ## API部分:
 
