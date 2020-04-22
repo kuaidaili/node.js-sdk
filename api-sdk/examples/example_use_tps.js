@@ -9,6 +9,7 @@
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
 auth = new Auth('yourOrderId','yourApiKey');
+
 client = new Client(auth);
 // 获取订单到期时间
 client.getOrderExpireTime('hmacsha1').then(
@@ -39,3 +40,12 @@ client.changeTpsIp('hmacsha1').then(
         console.log(value);
     }
 );
+
+// 获取指定订单访问代理IP的鉴权信息。
+// 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。
+// 参考：https://www.kuaidaili.com/doc/api/getproxyauthorization/
+client.getProxyAuthorization(1,'simple').then(
+    value => {
+        console.log(value);
+    }
+)

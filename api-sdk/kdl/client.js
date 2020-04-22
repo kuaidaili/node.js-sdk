@@ -117,6 +117,22 @@ class Client {
         }).catch(error=> {
         });
     }
+    /**
+     * 获取代理鉴权信息，强制simple签名验证
+     * 
+     * @method getProxyAuthorization
+     * @for Client
+     * @param  {Number} plainText 是否返回
+     * @param  {String} signType 鉴权方式
+     * @return {Promise} 返回Promise对象
+     */
+    getProxyAuthorization(plainText = 0,signType = "simple") {
+        let ENDPOINT = kdlUtils.ENDPOINT.GET_PROXY_AUTHORIZATION;
+        let dic = {};
+        dic['sign_type'] = signType;
+        dic['plaintext'] = plainText;
+        return this.returnPromise(ENDPOINT,dic,'alldata');
+    }
 
     /**
      * 获取私密代理，强制simple签名验证
@@ -255,7 +271,13 @@ class Client {
                 let err_message = 'code:'+value.code +'->'+ value.msg;
                 throw new kdlError.KdlReadError(err_message);
             }
-            return value.data[key];
+            if(key === "alldata") {
+                return value.data;
+            }
+            else {
+                return value.data[key];
+            }
+           
         }).catch(error => {
             console.log('catch error: ',error);
             return error;

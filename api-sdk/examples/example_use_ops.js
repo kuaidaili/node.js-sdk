@@ -28,7 +28,7 @@ client.getOrderExpireTime('hmacsha1').then(
 // https://www.kuaidaili.com/doc/api/getproxy/
 params = {
     format:'json',
-    pt:2,
+    pt:1,
     area:'北京,上海,广东',
 };
 client.getOpsProxy(4,'svip','hmacsha1', params)

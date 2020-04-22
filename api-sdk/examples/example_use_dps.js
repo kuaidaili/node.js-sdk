@@ -16,6 +16,8 @@ client.getOrderExpireTime('simple').then(
         console.log(value);
     }
 );
+
+
 // 获取ip白名单
 client.getIpWhitelist('hmacsha1').then(
     value => {
@@ -78,3 +80,13 @@ client.getDpsProxy(5,'hmacsha1',params).then(
 client.getIpBalance('hmacsha1').then(value => {
     console.log(value);
 });
+
+
+// 获取指定订单访问代理IP的鉴权信息。
+// 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。
+// 参考：https://www.kuaidaili.com/doc/api/getproxyauthorization/
+client.getProxyAuthorization(1,'simple').then(
+    value => {
+        console.log(value);
+    }
+)
