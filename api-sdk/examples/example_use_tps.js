@@ -35,11 +35,11 @@ client.tpsCurrentIp('hmacsha1').then(value=>{
 
 
 // 修改当前隧道代理ip
-client.changeTpsIp('hmacsha1').then(
-    value => {
-        console.log(value);
-    }
-);
+// client.changeTpsIp('hmacsha1').then(
+//     value => {
+//         console.log(value);
+//     }
+// );
 
 // 获取指定订单访问代理IP的鉴权信息。
 // 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。
@@ -49,3 +49,15 @@ client.getProxyAuthorization(1,'simple').then(
         console.log(value);
     }
 )
+
+// 获取隧道代理ip
+// 构造请求参数。具体看
+// https://www.kuaidaili.com/doc/api/gettps/
+params = {
+    format:'json',
+};
+client.getTpsIp(2,'hmacsha1',params).then(
+    value => {
+        console.log(value);
+    }
+);

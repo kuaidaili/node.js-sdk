@@ -29,7 +29,8 @@ const ENDPOINT = {
     GET_DPS_VALID_TIME : "dps.kdlapi.com/api/getdpsvalidtime",
     TPS_CURRENT_IP : "tps.kdlapi.com/api/tpscurrentip",
     CHANGE_TPS_IP : "tps.kdlapi.com/api/changetpsip",
-    GET_PROXY_AUTHORIZATION: "dev.kdlapi.com/api/getproxyauthorization"  //获取代理鉴权信息
+    GET_PROXY_AUTHORIZATION: "dev.kdlapi.com/api/getproxyauthorization",  //获取代理鉴权信息
+    GET_TPS_IP: "tps.kdlapi.com/api/gettps", //获取隧道代理IP
 };
 
 

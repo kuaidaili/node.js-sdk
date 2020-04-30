@@ -251,6 +251,25 @@ class Client {
     }
 
     /**
+     * 获取隧道代理IP，强制simple签名验证
+     *
+     * @method getTpsIp
+     * @for Client
+     * @param  num 提取的数量
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    getTpsIp(num=0, signType="simple", otherParams={}) {
+        otherParams['num'] = num;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.GET_TPS_IP;
+
+        return this.getProxy(ENDPOINT,otherParams);
+    }
+
+
+    /**
      * 返回Promise对象的通用函数
      *
      * @method returnPromise
