@@ -18,14 +18,15 @@ client.getOrderExpireTime('simple').then(
 );
 
 
-// 获取ip白名单
+// // 获取ip白名单
 client.getIpWhitelist('hmacsha1').then(
     value => {
         console.log(value);
     }
 );
-// 设置白名单 参数为字符串。如下
-client.setIpWhitelist("171.113.244.24,171.113.244.41", 'hmacsha1').then(value => {});
+// 设置白名单 参数为字符串。如下  ,如果为参数不加，则会设置为本地ip地址。
+client.setIpWhitelist().then(value => {});
+//client.setIpWhitelist("171.113.244.55,171.113.244.41",'hmacsha1').then(value => {});
 
 // 提取私密代理ip
 // 构造请求参数。具体看

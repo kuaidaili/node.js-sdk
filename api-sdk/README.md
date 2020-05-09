@@ -36,9 +36,10 @@ npm install kdl
  *   所有方法均可添加关键字参数signType修改鉴权方式。
  * @author www.kuaidaili.com
  */
-const Client = require('kdl/kdl/client'); //样例引入的方式可能因为您的导入kdl包方式的方式而略有不同
-const Auth = require('kdl/kdl/auth');
-auth = new Auth('youOrderId','youApiKey');
+
+const Client = require('../kdl/client');
+const Auth = require('../kdl/auth');
+auth = new Auth('yourOrderId','yourApiKey');
 client = new Client(auth);
 // 获取订单到期时间
 client.getOrderExpireTime('simple').then(
@@ -46,14 +47,17 @@ client.getOrderExpireTime('simple').then(
         console.log(value);
     }
 );
-// 获取ip白名单
+
+
+// // 获取ip白名单
 client.getIpWhitelist('hmacsha1').then(
     value => {
         console.log(value);
     }
 );
-// 设置白名单 参数为字符串。如下
-client.setIpWhitelist("171.113.244.24,171.113.244.41", 'hmacsha1').then(value => {});
+// 设置白名单 参数为字符串。如下  ,如果为参数不加，则会设置为本地ip地址。
+client.setIpWhitelist().then(value => {});
+//client.setIpWhitelist("171.113.244.55,171.113.244.41",'hmacsha1').then(value => {});
 
 // 提取私密代理ip
 // 构造请求参数。具体看
@@ -68,6 +72,7 @@ client.getDpsProxy(5,'hmacsha1',params).then(
         console.log(value);
     }
 );
+
 // 检测dps_proxy的有效性
 params = {
     format:'json',
@@ -99,6 +104,7 @@ client.getDpsProxy(5,'hmacsha1',params).then(
         );
     }
 );
+
 // 获取订单IP提取余额
 // 此接口只对按量付费订单和包年包月的集中提取型订单有效：
 // 对于按量付费订单，此接口返回的是订单的剩余IP提取额度。
@@ -106,6 +112,7 @@ client.getDpsProxy(5,'hmacsha1',params).then(
 client.getIpBalance('hmacsha1').then(value => {
     console.log(value);
 });
+
 
 // 获取指定订单访问代理IP的鉴权信息。
 // 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。

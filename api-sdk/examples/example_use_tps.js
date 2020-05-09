@@ -56,7 +56,7 @@ client.getProxyAuthorization(1,'simple').then(
 params = {
     format:'json',
 };
-client.getTpsIp(2,'hmacsha1',params).then(
+client.getTps(2,'hmacsha1',params).then(
     value => {
         console.log(value);
     }

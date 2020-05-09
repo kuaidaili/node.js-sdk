@@ -102,15 +102,18 @@ class Client {
      *
      * @method setIpWhitelist
      * @for Client
-     * @param  {String} ip_list ip列表，默认为把白名单设置为空
+     * @param  {String} ip_list ip列表，默认为把白名单设置为本地ip
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    setIpWhitelist(ip_list="", signType='simple') {
+    setIpWhitelist(ip_list="localhost", signType='simple') {
+        console.log(ip_list);
         let ENDPOINT = kdlUtils.ENDPOINT.SET_IP_WHITELIST;
         let dic = {};
         dic['sign_type'] = signType;
-        dic['iplist'] = ip_list;
+        if (ip_list!=="localhost") {
+            dic['iplist'] = ip_list;    //当给予了参数，才会带上这个iplist，不给予参数就不会，也就是设置为本地ip.
+        } 
         let params = this.getParams(ENDPOINT,dic);
         let promise =  this.getBaseRes("POST",ENDPOINT,params);
         return promise.then(value=> {
@@ -253,18 +256,17 @@ class Client {
     /**
      * 获取隧道代理IP，强制simple签名验证
      *
-     * @method getTpsIp
+     * @method getTps
      * @for Client
      * @param  num 提取的数量
      * @param  {String} signType 鉴权方式
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getTpsIp(num=0, signType="simple", otherParams={}) {
+    getTps(num=0, signType="simple", otherParams={}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_TPS_IP;
-
         return this.getProxy(ENDPOINT,otherParams);
     }
 
@@ -281,11 +283,8 @@ class Client {
      */
     returnPromise(ENDPOINT, otherParams, key) {
         let params = this.getParams(ENDPOINT,otherParams);
-        //console.log('得到的参数为',params);
         let promise =  this.getBaseRes("GET",ENDPOINT,params);
         return promise.then(value => {
-            //console.log('获取的value',value);
-
             if(value.code !== 0) {//有问题了。
                 let err_message = 'code:'+value.code +'->'+ value.msg;
                 throw new kdlError.KdlReadError(err_message);
@@ -296,7 +295,6 @@ class Client {
             else {
                 return value.data[key];
             }
-           
         }).catch(error => {
             console.log('catch error: ',error);
             return error;
