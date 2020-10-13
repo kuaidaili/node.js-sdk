@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file auth模块 主要记录订单和订单的apiKey
  * 需要先安装axios包：
  * npm install npm
@@ -353,6 +353,35 @@ class Client {
     }
 
     /**
+     * 获取user agent，强制simple签名验证
+     *
+     * @method getUA
+     * @for Client
+     * @param  num 提取的数量
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    getUA(num=0, signType="simple", otherParams={}) {
+        otherParams['num'] = num;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.GET_UA;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+        // console.log(promise)
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value.data['ua_list'];
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+    /**
      * 构造请求参数
      *
      * @method getParams
@@ -435,6 +464,8 @@ class Client {
             console.log(e);
         }
     }
+
+    
 }
 module.exports = Client;
 

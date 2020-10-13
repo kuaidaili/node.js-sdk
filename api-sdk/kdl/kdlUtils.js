@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file 集合kdl使用的常量和常用的函数
  * @author www.kuaidaili.com
  */
@@ -31,6 +31,7 @@ const ENDPOINT = {
     CHANGE_TPS_IP : "tps.kdlapi.com/api/changetpsip",
     GET_PROXY_AUTHORIZATION: "dev.kdlapi.com/api/getproxyauthorization",  //获取代理鉴权信息
     GET_TPS_IP: "tps.kdlapi.com/api/gettps", //获取隧道代理IP
+    GET_UA : "dev.kdlapi.com/api/getua",   //获取User Agent
 };
 
 
