@@ -41,12 +41,28 @@ const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
 auth = new Auth('yourOrderId','yourApiKey');
 client = new Client(auth);
+
 // 获取订单到期时间
 client.getOrderExpireTime('simple').then(
     value => {
         console.log(value);
     }
 );
+
+/**
+ * 获取User-Agent, 返回ua列表
+ * 参数说明:{
+ * "dt":"系统类型(pc,mobile,pad)",
+ * "browser":"浏览器(chrome,ie,firefox,weixin)",
+ * "platform":"系统类型(win,mac,linux,ios)"
+ * }
+ */
+client.getUA(10,'simple',otherParams={"dt":"pc","browser":"chrome","platform":"win"}).then(
+    value => {
+        console.log(value);
+        console.log(value.length);
+    }
+)
 
 
 // // 获取ip白名单
