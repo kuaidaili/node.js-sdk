@@ -32,6 +32,8 @@ const ENDPOINT = {
     GET_PROXY_AUTHORIZATION: "dev.kdlapi.com/api/getproxyauthorization",  //获取代理鉴权信息
     GET_TPS_IP: "tps.kdlapi.com/api/gettps", //获取隧道代理IP
     GET_UA : "dev.kdlapi.com/api/getua",   //获取User Agent
+    GET_AREA_CODE : "dev.kdlapi.com/api/getareacode",  // 获取指定地区编码
+    GET_ACCOUNT_BALANCE : "dev.kdlapi.com/api/getaccountbalance",  // 获取账户余额
 };
 
 

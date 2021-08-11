@@ -382,6 +382,64 @@ class Client {
     }
 
     /**
+     * 获取指定地区编码
+     *
+     * @method getAreaCode
+     * @for Client
+     * @param  area 地区名称
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    getAreaCode(area, signType="simple", otherParams={}) {
+        otherParams['area'] = area;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.GET_AREA_CODE;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value.data;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 获取账户余额
+     *
+     * @method getAccountBalance
+     * @for Client
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    getAccountBalance(signType="simple", otherParams={}) {
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.GET_ACCOUNT_BALANCE;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value.data;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
      * 构造请求参数
      *
      * @method getParams
