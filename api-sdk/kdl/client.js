@@ -285,7 +285,7 @@ class Client {
         let params = this.getParams(ENDPOINT,otherParams);
         let promise =  this.getBaseRes("GET",ENDPOINT,params);
         return promise.then(value => {
-            if(value.code !== 0) {//有问题了。
+            if(value.code !== 0) {
                 let err_message = 'code:'+value.code +'->'+ value.msg;
                 throw new kdlError.KdlReadError(err_message);
             }
@@ -316,7 +316,6 @@ class Client {
         let promise = this.getBaseRes("GET",ENDPOINT,params);
         return promise.then(
             value => {
-                //console.log('获取了value');
                 if(value.code !== 0) {
                     let err_message = 'code:'+value.code +'->'+ value.msg;
                     throw new kdlError.KdlReadError(err_message);
@@ -432,6 +431,154 @@ class Client {
                 throw new kdlError.KdlReadError(err_message);
             }
             return  value.data;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 创建订单，自动从账户余额里结算费用
+     *
+     * @method createOrder
+     * @for Client
+     * @param  {String} product  开通的产品类型
+     * @param  {String} pay_type 付费方式
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    createOrder(product, pay_type, signType="hmacsha1", otherParams={}) {
+        otherParams['product'] = product;
+        otherParams['pay_type'] = pay_type;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.Create_Order;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 获取订单的详细信息
+     *
+     * @method getOrderInfo
+     * @for Client
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    getOrderInfo(signType="hmacsha1", otherParams={}) {
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.Get_Order_Info;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 开启/关闭自动续费
+     *
+     * @method setAutoRenew
+     * @for Client
+     * @param  {String} autorenew 开启/关闭自动续费
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    setAutoRenew(autorenew, signType="hmacsha1", otherParams={}) {
+        otherParams['autorenew'] = autorenew;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.Set_Auto_Renew;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 关闭指定订单, 此接口只对按量付费(后付费)订单有效
+     *
+     * @method closeOrder
+     * @for Client
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    closeOrder(signType="hmacsha1", otherParams={}) {
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.Close_Order;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value;
+        }).catch(error=> {
+            console.log('catch error',error);
+            return error;
+        });
+    }
+
+
+    /**
+     * 查询独享代理有哪些城市可供开通。对于IP共享型还可查询到每个城市可开通的IP数量
+     *
+     * @method queryKpsCity
+     * @for Client
+     * @param  {String} serie 独享类型
+     * @param  {String} signType 鉴权方式
+     * @param  {Array} otherParams 其他参数字典
+     * @return {Promise} 返回Promise对象
+     */
+    queryKpsCity(serie, signType="hmacsha1", otherParams={}) {
+        otherParams['serie'] = serie;
+        otherParams['sign_type'] = signType;
+        let ENDPOINT = kdlUtils.ENDPOINT.Query_Kps_City;
+        let params =this.getParams(ENDPOINT,otherParams);
+        let promise =  this.getBaseRes("GET",ENDPOINT,params);
+
+        return promise.then(value => {
+            if(value.code !== 0) {
+                let err_message = 'code:'+value.code +'->'+ value.msg;
+                throw new kdlError.KdlReadError(err_message);
+            }
+            return  value;
         }).catch(error=> {
             console.log('catch error',error);
             return error;

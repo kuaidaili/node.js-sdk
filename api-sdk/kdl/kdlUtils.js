@@ -34,6 +34,12 @@ const ENDPOINT = {
     GET_UA : "dev.kdlapi.com/api/getua",   //获取User Agent
     GET_AREA_CODE : "dev.kdlapi.com/api/getareacode",  // 获取指定地区编码
     GET_ACCOUNT_BALANCE : "dev.kdlapi.com/api/getaccountbalance",  // 获取账户余额
+
+    Create_Order : "dev.kdlapi.com/api/createorder",   // 创建订单
+    Get_Order_Info : "dev.kdlapi.com/api/getorderinfo",  // 获取订单信息
+    Set_Auto_Renew : "dev.kdlapi.com/api/setautorenew",  // 开启/关闭自动续费
+    Close_Order : "dev.kdlapi.com/api/closeorder",  // 关闭订单
+    Query_Kps_City : "dev.kdlapi.com/api/querykpscity",  // 查询独享代理城市信息
 };
 
 
