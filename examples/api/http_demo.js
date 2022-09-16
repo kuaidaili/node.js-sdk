@@ -1,6 +1,6 @@
 const http = require('http');  // 引入内置http模块
 
-let api_url = 'http://dev.kdlapi.com/api/getproxy/?orderid=96518362xxxxxx&num=100&protocol=1&method=2&an_ha=1&sep=1';  // 要访问的目标网页
+let api_url = 'http://dev.kdlapi.com/api/getproxy/?secret_id=o1fjh1re9o28876h7c08&signature=xxxxx&num=100&protocol=1&method=2&an_ha=1&sep=1';  // 要访问的目标网页
 
 // 采用gzip压缩, 使速度更快
 let options = {
