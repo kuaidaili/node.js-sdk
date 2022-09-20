@@ -8,7 +8,7 @@
 
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
-auth = new Auth('o9oep1omndj2g2khzren','ne5e2pcl2f2g7i3s3o0ypo0qs31ty5gw');
+auth = new Auth('secret_id','secret_key');
 
 client = new Client(auth);
 // 获取订单到期时间
