@@ -40,6 +40,8 @@ const ENDPOINT = {
     Set_Auto_Renew : "dev.kdlapi.com/api/setautorenew",  // 开启/关闭自动续费
     Close_Order : "dev.kdlapi.com/api/closeorder",  // 关闭订单
     Query_Kps_City : "dev.kdlapi.com/api/querykpscity",  // 查询独享代理城市信息
+
+    Get_Secret_Token : "auth.kdlapi.com/api/get_secret_token",
 };
 
 

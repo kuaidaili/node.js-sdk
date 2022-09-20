@@ -1,14 +1,14 @@
 /**
  * @file 隧道代理使用示例
  * 接口鉴权说明：
- *   目前支持的鉴权方式有 "simple" 和 "hmacsha1" 两种，默认使用 "simple"鉴权。
+ *   目前支持的鉴权方式有 "token" 和 "hmacsha1" 两种，默认使用 "token"鉴权。
  *   所有方法均可添加关键字参数signType修改鉴权方式。
  * @author www.kuaidaili.com
  */
 
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
-auth = new Auth('yourOrderId','yourApiKey');
+auth = new Auth('o9oep1omndj2g2khzren','ne5e2pcl2f2g7i3s3o0ypo0qs31ty5gw');
 
 client = new Client(auth);
 // 获取订单到期时间
@@ -44,7 +44,7 @@ client.tpsCurrentIp('hmacsha1').then(value=>{
 // 获取指定订单访问代理IP的鉴权信息。
 // 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。
 // 参考：https://www.kuaidaili.com/doc/api/getproxyauthorization/
-client.getProxyAuthorization(1,'simple').then(
+client.getProxyAuthorization(1,'token').then(
     value => {
         console.log(value);
     }

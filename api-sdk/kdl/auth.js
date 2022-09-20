@@ -1,5 +1,5 @@
 /**
- * @file auth模块 主要记录订单和订单的apiKey
+ * @file auth模块 主要记录订单和订单的secret_key
  * @author kuaidaili.com
  */
 
@@ -7,16 +7,16 @@ const kdlUtils = require('./kdlUtils');
 global.crypto = require('crypto');
 
 class Auth {
-    constructor(orderId, apiKey) {
-        this.orderId = orderId;
-        this.apiKey = apiKey;
+    constructor(secret_id, secret_key) {
+        this.secretId = secret_id;
+        this.secretKey = secret_key;
     }
 
-    get order_id() {
-        return this.orderId;
+    get secret_id() {
+        return this.secretId;
     }
-    get api_key() {
-        return this.apiKey;
+    get secret_key() {
+        return this.secretKey;
     }
 
     /**
@@ -45,7 +45,7 @@ class Auth {
      * @return {String}  Hmacsha1加密，并base64编码之后的原字符串。
      */
     signStr(rawStr, ) {
-        return crypto.createHmac('sha1',this.api_key).update(rawStr).digest().toString('base64');
+        return crypto.createHmac('sha1',this.secret_key).update(rawStr).digest().toString('base64');
     }
 }
 

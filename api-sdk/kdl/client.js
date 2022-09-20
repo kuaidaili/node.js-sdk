@@ -1,5 +1,5 @@
 ﻿/**
- * @file auth模块 主要记录订单和订单的apiKey
+ * @file auth模块 主要记录订单和订单的secret_key
  * 需要先安装axios包：
  * npm install npm
  * @author www.kuaidaili.com
@@ -9,6 +9,9 @@
 const kdlUtils = require('./kdlUtils');
 const axios = require('axios');
 const kdlError = require('./exceptions');
+const fs = require('fs');
+
+const secretPath = './.secret'
 
 /**
  * 客户端类
@@ -24,14 +27,14 @@ class Client {
     }
 
     /**
-     * 获取订单到期时间，强制simple签名验证
+     * 获取订单到期时间，强制token签名验证
      *
      * @method getOrderExpireTime
      * @for Client
      * @param  {String} signType 鉴权方式，具体可查看官网：https://www.kuaidaili.com/doc/api/auth/
      * @return {Promise} 返回Promise对象
      */
-    getOrderExpireTime(signType = "simple") {
+    getOrderExpireTime(signType = "token") {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_ORDER_EXPIRE_TIME;
         let dic = {};
         dic['sign_type'] = signType;
@@ -40,7 +43,7 @@ class Client {
     }
 
     /**
-     * 获取开放代理，强制simple签名验证
+     * 获取开放代理，强制token签名验证
      *
      * @method getOpsProxy
      * @for Client
@@ -50,7 +53,7 @@ class Client {
      * @param  {{}} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getOpsProxy(num=0, orderLevel=OPS_ORDER_LEVEL.NORMAL, signType="simple", otherParams={}) {
+    getOpsProxy(num=0, orderLevel=OPS_ORDER_LEVEL.NORMAL, signType="token", otherParams={}) {
         //console.log(otherParams);
         let ENDPOINT = kdlUtils.ENDPOINT.GET_OPS_PROXY_NORMAL_OR_VIP;
         if(orderLevel===kdlUtils.OPS_ORDER_LEVEL.SVIP)
@@ -65,7 +68,7 @@ class Client {
     }
 
     /**
-     * 检验开放代理的有效性，强制simple签名验证
+     * 检验开放代理的有效性，强制token签名验证
      *
      * @method checkOpsValid
      * @for Client
@@ -73,7 +76,7 @@ class Client {
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    checkOpsValid(proxyList, signType='simple') {
+    checkOpsValid(proxyList, signType='token') {
         let ENDPOINT = kdlUtils.ENDPOINT.CHECK_OPS_VALID;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -83,14 +86,14 @@ class Client {
     }
 
     /**
-     * 获取ip白名单，强制simple签名验证
+     * 获取ip白名单，强制token签名验证
      *
      * @method getIpWhitelist
      * @for Client
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getIpWhitelist(signType = "simple") {
+    getIpWhitelist(signType = "token") {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_IP_WHITELIST;
         let dic =  {};
         dic['sign_type'] = signType;
@@ -98,7 +101,7 @@ class Client {
     }
 
     /**
-     * 设置ip白名单，强制simple签名验证
+     * 设置ip白名单，强制token签名验证
      *
      * @method setIpWhitelist
      * @for Client
@@ -106,7 +109,7 @@ class Client {
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    setIpWhitelist(ip_list="localhost", signType='simple') {
+    setIpWhitelist(ip_list="localhost", signType='token') {
         console.log(ip_list);
         let ENDPOINT = kdlUtils.ENDPOINT.SET_IP_WHITELIST;
         let dic = {};
@@ -121,7 +124,7 @@ class Client {
         });
     }
     /**
-     * 获取代理鉴权信息，强制simple签名验证
+     * 获取代理鉴权信息，强制token签名验证
      * 
      * @method getProxyAuthorization
      * @for Client
@@ -129,7 +132,7 @@ class Client {
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getProxyAuthorization(plainText = 0,signType = "simple") {
+    getProxyAuthorization(plainText = 0,signType = "token") {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_PROXY_AUTHORIZATION;
         let dic = {};
         dic['sign_type'] = signType;
@@ -138,7 +141,7 @@ class Client {
     }
 
     /**
-     * 获取私密代理，强制simple签名验证
+     * 获取私密代理，强制token签名验证
      *
      * @method getDpsProxy
      * @for Client
@@ -147,7 +150,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getDpsProxy(num=0, signType="simple", otherParams={}) {
+    getDpsProxy(num=0, signType="token", otherParams={}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_DPS_PROXY;
@@ -156,7 +159,7 @@ class Client {
     }
 
     /**
-     * 检验私密代理ip有效性，强制simple签名验证
+     * 检验私密代理ip有效性，强制token签名验证
      *
      * @method checkDpsValid
      * @for Client
@@ -164,7 +167,7 @@ class Client {
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    checkDpsValid(proxyList, signType='simple') {
+    checkDpsValid(proxyList, signType='token') {
         let ENDPOINT = kdlUtils.ENDPOINT.CHECK_DPS_VALID;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -174,7 +177,7 @@ class Client {
     }
 
     /**
-     * 检验dps_ip有效性，强制simple签名验证
+     * 检验dps_ip有效性，强制token签名验证
      *
      * @method getDpsValidTime
      * @for Client
@@ -182,7 +185,7 @@ class Client {
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getDpsValidTime(proxyList, signType='simple') {
+    getDpsValidTime(proxyList, signType='token') {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_DPS_VALID_TIME;
         let str = kdlUtils.getProxyStr(proxyList);
         let dic = {};
@@ -193,14 +196,14 @@ class Client {
 
     /**
      * 此接口只对按量付费订单和包年包月的集中提取型订单有效
-     * 获取计数版订单ip余额, 强制simple签名验证
+     * 获取计数版订单ip余额, 强制token签名验证
      *
      * @method getIpBalance
      * @for Client
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    getIpBalance(signType='simple') {
+    getIpBalance(signType='token') {
         let ENDPOINT = kdlUtils.ENDPOINT.GET_IP_BALANCE;
         let dic = {};
         dic['sign_type'] = signType;
@@ -208,7 +211,7 @@ class Client {
     }
 
     /**
-     * 获取独享代理，强制simple签名验证
+     * 获取独享代理，强制token签名验证
      *
      * @method getKpsProxy
      * @for Client
@@ -216,7 +219,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getKpsProxy(num=0, signType="simple", otherParams= {}) {
+    getKpsProxy(num=0, signType="token", otherParams= {}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_KPS_PROXY;
@@ -224,14 +227,14 @@ class Client {
     }
 
     /**
-     * 获取当前隧道代理的ip，强制simple签名验证
+     * 获取当前隧道代理的ip，强制token签名验证
      *
      * @method tpsCurrentIp
      * @for Client
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    tpsCurrentIp(signType="simple") {
+    tpsCurrentIp(signType="token") {
         let ENDPOINT = kdlUtils.ENDPOINT.TPS_CURRENT_IP;
         let dic = {};
         dic['sign_type'] = signType;
@@ -239,14 +242,14 @@ class Client {
     }
 
     /**
-     * 修改隧道代理当前ip，强制simple签名验证
+     * 修改隧道代理当前ip，强制token签名验证
      *
      * @method changeTpsIp
      * @for Client
      * @param  {String} signType 鉴权方式
      * @return {Promise} 返回Promise对象
      */
-    changeTpsIp(signType="simple") {
+    changeTpsIp(signType="token") {
         let ENDPOINT = kdlUtils.ENDPOINT.CHANGE_TPS_IP;
         let dic = {};
         dic['sign_type'] = signType;
@@ -254,7 +257,7 @@ class Client {
     }
 
     /**
-     * 获取隧道代理IP，强制simple签名验证
+     * 获取隧道代理IP，强制token签名验证
      *
      * @method getTps
      * @for Client
@@ -263,7 +266,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getTps(num=0, signType="simple", otherParams={}) {
+    getTps(num=0, signType="token", otherParams={}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_TPS_IP;
@@ -352,7 +355,7 @@ class Client {
     }
 
     /**
-     * 获取user agent，强制simple签名验证
+     * 获取user agent，强制token签名验证
      *
      * @method getUA
      * @for Client
@@ -361,7 +364,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getUA(num=0, signType="simple", otherParams={}) {
+    getUA(num=0, signType="token", otherParams={}) {
         otherParams['num'] = num;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_UA;
@@ -390,7 +393,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getAreaCode(area, signType="simple", otherParams={}) {
+    getAreaCode(area, signType="token", otherParams={}) {
         otherParams['area'] = area;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_AREA_CODE;
@@ -419,10 +422,10 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    getAccountBalance(signType="simple", otherParams={}) {
+    getAccountBalance(signType="token", otherParams={}) {
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.GET_ACCOUNT_BALANCE;
-        let params =this.getParams(ENDPOINT,otherParams);
+        let params = this.getParams(ENDPOINT,otherParams);
         let promise =  this.getBaseRes("GET",ENDPOINT,params);
 
         return promise.then(value => {
@@ -508,7 +511,7 @@ class Client {
      * @param  {Array} otherParams 其他参数字典
      * @return {Promise} 返回Promise对象
      */
-    setAutoRenew(autorenew, signType="hmacsha1", otherParams={}) {
+    setAutoRenew(autorenew, signType="token", otherParams={}) {
         otherParams['autorenew'] = autorenew;
         otherParams['sign_type'] = signType;
         let ENDPOINT = kdlUtils.ENDPOINT.Set_Auto_Renew;
@@ -585,6 +588,46 @@ class Client {
         });
     }
 
+    async _getSecretToken() {
+        let ENDPOINT = kdlUtils.ENDPOINT.Get_Secret_Token;
+        let params = this.getParams(ENDPOINT, {'sign_type': 'simple', 'secret_key': this.auth.secret_key});
+        let response = await this.getBaseRes("POST", ENDPOINT, params);
+
+        let value = response.data;
+        if(value.code !== 0) {
+            let err_message = 'code:'+value.code +'->'+ value.msg;
+            throw new kdlError.KdlReadError(err_message);
+        }
+        let secretToken = value.data.secret_token;
+        let expire = value.data.expire;
+        let lastTime = (new Date()).getTime();
+        return [secretToken, parseInt(expire)*1000, lastTime];
+    }
+
+    async _readSecretToken() {
+        let buf = fs.readFileSync(secretPath, {encoding:'utf-8'});
+        let tokenList = buf.split('|');
+        let expire = parseInt(tokenList[1]);
+        let lastTime = parseInt(tokenList[2]);
+        if (lastTime + expire - 180 * 1000 < (new Date()).getTime()) {  // 过期时重新获取
+            tokenList = await this._getSecretToken();
+            fs.writeFileSync(secretPath, tokenList.join('|'));
+        }
+        let secretToken = tokenList[0];
+        return secretToken;
+    }
+
+    async getSecretToken() {
+        try {
+            let secretToken = await this._readSecretToken();
+            return secretToken;
+        } catch {
+            let tokenList = await this._getSecretToken();
+            fs.writeFileSync(secretPath, tokenList.join('|'));
+            return tokenList[0];
+        }
+    }
+
 
     /**
      * 构造请求参数
@@ -595,16 +638,15 @@ class Client {
      * @param  {{}} kwargs 字典。
      * @return {Array} 返回值这加工之后的参数
      */
-    getParams(ENDPOINT, kwargs) {
-        kwargs["orderid"] = this.auth.order_id;
+    async getParams(ENDPOINT, kwargs) {
+        kwargs["secret_id"] = this.auth.secret_id;
         let signType = kwargs['sign_type'];
 
         let rawStr = "";
         try  {
             if(signType === 'simple') {
-                kwargs["signature"] = this.auth.api_key;
-            }
-            else if(signType === 'hmacsha1') {
+                kwargs["signature"] = this.auth.secret_key;
+            } else if(signType === 'hmacsha1') {
                 kwargs["timestamp"] = Date.now();
                 if (ENDPOINT === kdlUtils.ENDPOINT.SET_IP_WHITELIST) {
                     rawStr  = this.auth.getStringToSign("POST",ENDPOINT,kwargs);
@@ -613,8 +655,9 @@ class Client {
                     rawStr = this.auth.getStringToSign("GET",ENDPOINT,kwargs);
                 }
                 kwargs["signature"] = this.auth.signStr(rawStr);
-            }
-            else {
+            } else if (signType === 'token') {
+                kwargs["signature"] = await this.getSecretToken();
+            } else {
                 //抛异常
                 throw new kdlError.KdlNameError('unknown signType '+signType);
             }
@@ -636,8 +679,11 @@ class Client {
      * @param  {String} method 请求方式
      * @return  {Promise} 返回promise对象
      */
-    getBaseRes(method, endpont, params) {
+    async getBaseRes(method, endpont, params) {
         let url = "https://" + endpont;
+        if (params instanceof Promise) {
+            params = await params
+        }
         try {
             if(method==='GET') {
                 return axios.get(url, {
