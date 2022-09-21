@@ -8,10 +8,10 @@
    ```
 2. 从[快代理](https://www.kuaidaili.com)购买相应产品
 
-3. [获取订单的`orderId`和`apiKey`](https://www.kuaidaili.com/usercenter/api/settings/)
+3. [获取订单的`secret_id`和`secret_key`](https://www.kuaidaili.com/usercenter/api/secret/)
 
 # 获取安装
-安装 node SDK 前，请先获取订单对应的订单号和apiKey。 订单号是用于标识订单，apiKey 是用于加密签名字符串和服务器端验证签名字符串的密钥。apiKey 必须严格保管，避免泄露。
+安装 node SDK 前，请先获取订单对应的api密钥。secret_id是用于标识订单，secret_key 是用于加密签名字符串和服务器端验证签名字符串的密钥。secret_key 必须严格保管，避免泄露。
 
 ## 通过npm安装(推荐)
 您可以通过`npm`将SDK安装到您的项目中：
@@ -32,18 +32,18 @@ npm install kdl
 /**
  * @file 私密代理使用示例
  * 接口鉴权说明：
- *   目前支持的鉴权方式有 "simple" 和 "hmacsha1" 两种，默认使用 "simple"鉴权。
+ *   目前支持的鉴权方式有 "token" 和 "hmacsha1" 两种，默认使用 "token"鉴权。
  *   所有方法均可添加关键字参数signType修改鉴权方式。
  * @author www.kuaidaili.com
  */
 
 const Client = require('../kdl/client');
 const Auth = require('../kdl/auth');
-auth = new Auth('yourOrderId','yourApiKey');
+auth = new Auth('secret_id','secret_key');
 client = new Client(auth);
 
 // 获取订单到期时间
-client.getOrderExpireTime('simple').then(
+client.getOrderExpireTime('token').then(
     value => {
         console.log(value);
     }
@@ -57,7 +57,7 @@ client.getOrderExpireTime('simple').then(
  * "platform":"系统类型(win,mac,linux,ios)"
  * }
  */
-client.getUA(10,'simple',otherParams={"dt":"pc","browser":"chrome","platform":"win"}).then(
+client.getUA(10,'token',otherParams={"dt":"pc","browser":"chrome","platform":"win"}).then(
     value => {
         console.log(value);
         console.log(value.length);
@@ -133,7 +133,7 @@ client.getIpBalance('hmacsha1').then(value => {
 // 获取指定订单访问代理IP的鉴权信息。
 // 鉴权信息包含用户名密码，用于请求私密代理/独享代理/隧道代理时进行身份验证。
 // 参考：https://www.kuaidaili.com/doc/api/getproxyauthorization/
-client.getProxyAuthorization(1,'simple').then(
+client.getProxyAuthorization(1,'token').then(
     value => {
         console.log(value);
     }
